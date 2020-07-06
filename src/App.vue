@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="bg-gray-100 font-sans leading-normal tracking-normal mt-12 min-h-full">
+  <div id="app" class="bg-gray-100 font-sans leading-normal tracking-normal mt-16 min-h-full">
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -7,8 +7,8 @@
     <router-view/> -->
     
     <NavBar />
-    <div class="pt-20 md:pt-0">
-      <router-view v-if="!auth"></router-view>
+    <div v-if="!auth" class="pt-20 md:pt-0">
+      <router-view ></router-view>
     </div>
     
     <!-- <div class="h-full md:flex items-center justify-between mx-12" v-if="!auth">
@@ -18,7 +18,7 @@
     
     
 
-    <div v-if="auth" class="flex flex-col md:flex-row h-full">
+    <div v-if="auth" class="flex flex-col md:flex-row min-h-screen">
       <LeftBar></LeftBar>
       <router-view/>
       <!-- <Home v-if="HomeIsActive"></Home> -->
@@ -69,8 +69,8 @@ export default {
 </script>
 
 <style>
-html, body{
-height: 100%;
+html, body, #app{
+min-height: 100vh;
 
 }
 

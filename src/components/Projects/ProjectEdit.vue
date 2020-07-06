@@ -2,7 +2,7 @@
     <div class="main-content h-full flex-1 bg-gray-100 mt-12 pb-24 md:pb-5">
         <div class="container mx-auto px-4 sm:px-8 mt-10 md:flex md:justify-center mb-6">
             <form class="w-full max-w-lg bg-gray-100" @submit.prevent="checkForm">
-                <div class="mb-4">
+                <div class="mb-4 w-36 break-words">
                     <h2 class="text-2xl font-semibold leading-tight">Edit {{  project.name  }}</h2>
                 </div>
                 <div class="flex flex-wrap -mx-3 mb-6">

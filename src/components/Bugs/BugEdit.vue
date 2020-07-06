@@ -62,15 +62,6 @@
                 <option>Pending</option>
                 <option>Finished</option>
             </select>
-            <select v-model="country"
-                    class="block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                    name="status">
-          <!-- as recommended by Vue -->
-                <option disabled value="">Please select one</option>
-                <option>US</option>
-                <option>UK</option>
-                <option>EU</option>
-            </select>
           </div>
         </div>
         <div>

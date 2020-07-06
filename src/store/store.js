@@ -42,7 +42,7 @@ export default new Vuex.Store({
                 .then(res => {
                     console.log(res)
                     const now = new Date()
-                    const expirationDate = new Date(now.getTime() + 36000000)
+                    const expirationDate = now.getTime() + 36000000
                     localStorage.setItem('token', res.data.jwt)
                     localStorage.setItem('userName', authData.username)
                     localStorage.setItem('expirationDate', expirationDate)
@@ -52,7 +52,7 @@ export default new Vuex.Store({
                         user: authData.username
                     })
                     dispatch('setLogoutTimer', 36000000)
-                    router.replace('/Home')
+                    router.replace('/home')
                 })
                 .catch(err => console.log(err))
                 
@@ -62,7 +62,7 @@ export default new Vuex.Store({
                 .then(res => {
                     console.log(res)
                     const now = new Date()
-                    const expirationDate = new Date(now.getTime() + 36000000)
+                    const expirationDate = now.getTime() + 36000000
                     localStorage.setItem('token', res.data.jwt)
                     localStorage.setItem('userName', authData.username)
                     localStorage.setItem('expirationDate', expirationDate)
@@ -70,34 +70,32 @@ export default new Vuex.Store({
                         token: res.data.jwt,
                         user: authData.username
                     })
-                    dispatch('setLogoutTimer', 36000000111111111111)
-                    router.replace('/Home')
+                    dispatch('setLogoutTimer', 36000000)
+                    router.replace('/home')
                 })
                 .catch(err => console.log(err))
                 
         },
         tryAutoLogin ({commit}) {
-            // console.log('checking')
+            console.log('checking')
             const token = localStorage.getItem('token')
             if(!token) {
                 console.log('no token')
                 return
             }
             const expirationDate = localStorage.getItem('expirationDate')
-            const now = new Date()
-            // console.log(now)
-            // console.log(expirationDate)
+            const now = Date.now()
             if(now >= expirationDate) {
                 console.log('date expired')
                 return
             }
             const userId = localStorage.getItem('userName')
             commit('authUser', {
-                token: token,
+                // token: token,
                 user: userId
             })
             console.log('reload to home')
-            router.replace('/Home')
+            router.replace('/home')
             
             
         },
@@ -110,9 +108,7 @@ export default new Vuex.Store({
                 return
             }
             const expirationDate = localStorage.getItem('expirationDate')
-            const now = new Date()
-            console.log('now' + now)
-            console.log(expirationDate)
+            const now = Date.now()
             if(now >= expirationDate) {
                 console.log('date expired')
                 router.replace('/')

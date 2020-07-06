@@ -75,7 +75,9 @@
 							New to Bug Tracker?
 						</div>
 					</router-link> 
+					<p class="text-center text-sm">To log in, use username: admin, password: admin</p>
 			</form>
+			
 			</div>
 
 

@@ -2,7 +2,7 @@
   
   <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5 h-full">
       
-    <div class="container mx-auto px-4 sm:px-8 ">
+    <div class="container mx-auto px-4 sm:px-8 w-3/4">
         <!------------------navigator part----------------------->
         <div class="py-8">
             <div>
@@ -66,7 +66,7 @@
                     <ul class="min-w-full leading-normal">  
                       <li v-for="project in projects" :key="project.id" class="hover:bg-gray-100 px-5 py-5 border-b border-gray-200 bg-white text-md">
                           <router-link v-bind:to="`/projectDetail/${project.id}`">
-                               <p class="text-gray-900 whitespace-no-wrap">{{  project.name  }}</p>
+                               <p class="text-gray-900 hiddenTheContetnt">{{  project.name  }}</p>
                           </router-link>
                       </li>       
                     </ul>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <router-link to="/Home">
+            <router-link to="/home">
                 <button class="bg-green-400 py-2 px-3 rounded text-white hover:bg-green-300 float-right">Go Back</button>
             </router-link>            
         </div>
@@ -126,5 +126,10 @@ export default {
 }
 </script>
 <style scoped>
-
+.hiddenTheContetnt {
+            white-space: nowrap; 
+            text-overflow:ellipsis;
+            overflow: hidden;
+            max-width:40vw;
+        }
 </style>

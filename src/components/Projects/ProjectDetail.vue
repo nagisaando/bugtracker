@@ -5,12 +5,12 @@
             <!----------------top navigator part  ---------------------------------->
             <div class="py-16">
                 <div class="flex">
-                    <div class=flex-1>
+                    <div class="flex-1 w-8 break-words">
                         <h2 class="text-2xl font-semibold leading-tight">{{  project.name  }}</h2>
                         <h1 class="italic text-gray-500 text-sm">{{  project.description  }}</h1>
                     </div>
                 <!---------------------- Delete and Edit part----------------------------- -->
-                    <div class="flex-1 block relative">
+                    <div class="flex-1">
                         <div class="inline-flex float-right">
                             <router-link v-bind:to="`/projectDetail/${id}/projectEdit`">
                                 <button class="w-20 bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded-l">

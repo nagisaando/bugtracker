@@ -1,5 +1,5 @@
 <template>
-        <div class="main-content flex-1 bg-gray-100 pt-12 md:pt-2 pb-24 md:pb-5">
+        <div class="main-content flex-1 bg-gray-100 pb-24 md:pb-5">
 
             <div class="bg-blue-800 p-2 shadow text-xl text-white">
                 <h3 class="font-bold pl-2">Summary</h3>
@@ -58,6 +58,7 @@ export default {
   },
   methods: {
     async countProjects () {
+        this.$store.dispatch('checkLoginStatus')
         try{
             console.log(this.$store.getters.isAuthenticated)
             const response = await axios.get(
@@ -79,6 +80,7 @@ export default {
         }
     },
     async countBugs () {
+        this.$store.dispatch('checkLoginStatus')
         // const token = this.$store.getters.userToken
         try{
             const response = await axios.get(

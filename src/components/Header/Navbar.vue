@@ -5,7 +5,7 @@
             <div class="flex flex-wrap items-center mt-3 mb-3">
 
                 <div v-if="auth" class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
-                    <router-link to="/Home">
+                    <router-link to="/home">
                         <span class="text-xl pl-2"><i class="fas fa-home"></i></span>
                     </router-link>
                 </div>
@@ -43,9 +43,9 @@
                                     <!-- <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-user fa-fw"></i> Profile</a>
                                     <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-cog fa-fw"></i> Settings</a> -->
                                     <div class="border border-gray-800"></div>
-                                    <router-link to='/'>
+                                    
                                         <div @click="onLogout" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-sign-out-alt fa-fw"></i> Log Out</div>
-                                    </router-link>
+                              
                                     
                                 </div>
                             </div>
@@ -73,6 +73,7 @@ export default {
         onLogout(){
             this.$store.dispatch('logout')
             this.open = false
+            this.$router.push("/").catch(()=>{})
         }
     },
     computed: {
