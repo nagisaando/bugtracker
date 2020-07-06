@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="bg-gray-100 font-sans leading-normal tracking-normal mt-12 h-full">
+  <div id="app" class="bg-gray-100 font-sans leading-normal tracking-normal mt-12 min-h-full">
     <!-- <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -7,9 +7,19 @@
     <router-view/> -->
     
     <NavBar />
+    <div class="pt-20 md:pt-0">
+      <router-view v-if="!auth"></router-view>
+    </div>
+    
+    <!-- <div class="h-full md:flex items-center justify-between mx-12" v-if="!auth">
+      <Welcome></Welcome>
+      <Signin></Signin>
+    </div> -->
+    
+    
 
-    <div class="flex flex-col md:flex-row h-full">
-      <LeftBar />
+    <div v-if="auth" class="flex flex-col md:flex-row h-full">
+      <LeftBar></LeftBar>
       <router-view/>
       <!-- <Home v-if="HomeIsActive"></Home> -->
       <!-- <component :is="HomeIsActive"></component> -->
@@ -26,17 +36,25 @@
 
 <script>
 import NavBar from './components/Header/Navbar.vue';
-import LeftBar from './components/Header/LeftBar.vue'
+import LeftBar from './components/Header/LeftBar.vue';
 // import Home from './views/Home.vue'
 export default {
   data: function(){
     return {
-      HomeIsActive: true
+      HomeIsActive: true,
     }
   },
-
+  computed: {
+    auth() {
+      return this.$store.getters.userToken
+    }
+  },
   created(){
     this.HomeIsActive = false;
+    this.$store.dispatch('tryAutoLogin');
+  },
+  mounted(){
+    
   },
 
   destroyed() {
@@ -51,7 +69,7 @@ export default {
 </script>
 
 <style>
-html {
+html, body{
 height: 100%;
 
 }

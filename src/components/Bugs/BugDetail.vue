@@ -133,7 +133,10 @@ export default {
         async deleteBugs() {
             try {
                 const response = await axios.delete(
-                    `http://bugtracker-springboot.herokuapp.com/projects/${this.id}/bugs/${this.bugId}`
+                    `/projects/${this.id}/bugs/${this.bugId}`,
+                    { headers: {
+                        'Authorization' :'Bearer ' + localStorage.getItem('token')
+                    }}
                 );
                 console.log(response.data);
                 this.hasDeleted = true;
@@ -148,7 +151,10 @@ export default {
     async mounted() {
         try {
             const response = await axios.get(
-                `http://bugtracker-springboot.herokuapp.com/projects/${this.id}/bugs/${this.bugId}`
+                `/projects/${this.id}/bugs/${this.bugId}`,
+                { headers: {
+                    'Authorization' :'Bearer ' + localStorage.getItem('token')
+                }}
             );
             console.log(response.data);
             this.bug = response.data;

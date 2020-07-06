@@ -195,9 +195,13 @@ export default {
     },
     methods: {
         async projectDetail() {
+    
             try {
                 const response = await axios.get(
-                    `http://bugtracker-springboot.herokuapp.com/projects/${this.id}`
+                    `/projects/${this.id}`,
+                    { headers: {
+                        'Authorization' :'Bearer ' + localStorage.getItem('token')
+                    }}
                 );
                 this.project = response.data;
             } catch (err) {
@@ -209,7 +213,10 @@ export default {
         async bugList() {
             try {
                 const response = await axios.get(
-                `http://bugtracker-springboot.herokuapp.com/projects/${this.id}/bugs`
+                `/projects/${this.id}/bugs`,
+                { headers: {
+                    'Authorization' :'Bearer ' + localStorage.getItem('token')
+                }}
                 ); 
                 this.bugs = response.data;
             } catch(err) {
@@ -220,8 +227,12 @@ export default {
         async deleteProject() {
             try {
                 await axios.delete(
-                    `http://bugtracker-springboot.herokuapp.com/projects/${this.id}`
-                );
+                    `/projects/${this.id}`,
+                    { headers: {
+                        'Authorization' :'Bearer ' + localStorage.getItem('token')
+                        }
+                    }
+                )
                 this.hasDeleted = true;
             } catch(err) {
                 console.log(err.message);

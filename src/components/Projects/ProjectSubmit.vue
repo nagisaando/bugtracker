@@ -103,9 +103,11 @@ export default {
         };
         console.log(post);
         const project = await axios.post(
-          'https://bugtracker-springboot.herokuapp.com/projects',
+          '/projects',
           post,
-          { useCredentails: true }
+          { headers: {
+              'Authorization' :'Bearer ' + localStorage.getItem('token')
+          }}
         );
         console.log(project);
         this.name = '';

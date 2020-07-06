@@ -88,7 +88,13 @@ export default {
               
             }
             console.log(post)
-            const project = await axios.put(`https://bugtracker-springboot.herokuapp.com/projects/${this.id}`, post)
+            const project = await axios.put(
+                `/projects/${this.id}`, 
+                post, 
+                { headers: {
+                    'Authorization' :'Bearer ' + localStorage.getItem('token')
+                }}
+            )
             console.log(project)
             this.name = '';
             this.description = '';
@@ -103,7 +109,10 @@ export default {
     async mounted() {
         try {
             const response = await axios.get(
-                `http://bugtracker-springboot.herokuapp.com/projects/${this.id}`
+                `/projects/${this.id}`,
+                { headers: {
+                    'Authorization' :'Bearer ' + localStorage.getItem('token')
+                }}
             );
             console.log(response.data);
             this.project = response.data;

@@ -1,14 +1,28 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
   {
     path: '/',
+    name: 'welcome',
+    component: () => import('../components/Welcome/Welcome.vue')
+  },
+  {
+    path: '/signIn',
+    name: 'SignIn',
+    component: () => import('../components/Login/Signin.vue')
+  },
+  {
+    path: '/signUp',
     name: 'Home',
-    component: Home
+    component: () => import('../components/Login/Signup.vue')
+  },
+  {
+    path: '/home',
+    name: 'Home',
+    component: () => import('../views/Home.vue')
   },
   {
     path: '/projects',
@@ -49,6 +63,10 @@ Vue.use(VueRouter)
         path: 'BugEdit/:bugId',
         name: 'BugEdit',
         component: () => import('../components/Bugs/BugEdit.vue')
+      },
+      {
+        path :'*',
+        component: () => import('../views/Error.vue')
       }
     ]
   },

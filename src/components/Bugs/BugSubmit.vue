@@ -73,6 +73,7 @@ export default {
             }
         },
         async addBug(){
+            console.log(this.id)
             if(this.title === ''){
                 console.log(this.title)
                 return;
@@ -82,9 +83,14 @@ export default {
                 const post = {
                     description: this.description,
                     title: this.title,
-                    status: 0
               }
-              const project = await axios.post(`https://bugtracker-springboot.herokuapp.com/projects/${this.id}/bugs`, post)
+              const project = await axios.post(
+                  `/projects/${this.id}/bugs`, 
+                  post,
+                  {headers: {
+                        'Authorization' :'Bearer ' + localStorage.getItem('token')
+                  }}
+                )
               console.log(project)
               this.title = '';
               this.description = '';

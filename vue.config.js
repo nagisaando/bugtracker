@@ -1,5 +1,5 @@
-// module.exports = {
-//     devServer: {
-//         proxy: 'http://bugtracker-springboot.herokuapp.com/',
-//     }
-//   }
+module.exports = {
+    devServer: {
+        proxy: 'https://localhost:8081/',
+    }
+  }

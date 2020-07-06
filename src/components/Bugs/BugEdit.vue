@@ -134,7 +134,7 @@ export default {
             console.log('bugStatus: ' + bugStatus)
             console.log(this.title)
             const data = {
-              status: 1,
+              status: bugStatus,
               description: this.description,
               title: this.title,
               
@@ -142,7 +142,13 @@ export default {
             }
 
             console.log(data.status)
-            const project = await axios.put(`https://bugtracker-springboot.herokuapp.com/projects/${this.id}/bugs/${this.bugId}`, data)
+            const project = await axios.put(
+              `/projects/${this.id}/bugs/${this.bugId}`,
+               data,
+               { headers: {
+                  'Authorization' :'Bearer ' + localStorage.getItem('token')
+              }}
+            )
             console.log(project)
             this.title = '';
             this.description = '';
@@ -156,7 +162,10 @@ export default {
     async mounted() {
         try {
             const response = await axios.get(
-                `http://bugtracker-springboot.herokuapp.com/projects/${this.id}/bugs/${this.bugId}`
+                `/projects/${this.id}/bugs/${this.bugId}`,
+                { headers: {
+                    'Authorization' :'Bearer ' + localStorage.getItem('token')
+                }}
             );
             console.log(response.data);
             this.bug = response.data;

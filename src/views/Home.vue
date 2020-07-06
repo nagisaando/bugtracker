@@ -1,7 +1,5 @@
 <template>
-  
-
-        <div class="main-content flex-1 bg-gray-100 mt-12 md:mt-2 pb-24 md:pb-5">
+        <div class="main-content flex-1 bg-gray-100 pt-12 md:pt-2 pb-24 md:pb-5">
 
             <div class="bg-blue-800 p-2 shadow text-xl text-white">
                 <h3 class="font-bold pl-2">Summary</h3>
@@ -48,6 +46,7 @@
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 import axios from 'axios'
+// import router from '../router'
 export default {
   name: 'Home',
   data() {
@@ -60,8 +59,13 @@ export default {
   methods: {
     async countProjects () {
         try{
+            console.log(this.$store.getters.isAuthenticated)
             const response = await axios.get(
-                'http://bugtracker-springboot.herokuapp.com/projects'
+                '/projects',
+                { headers: {
+                    'Authorization' :'Bearer ' + localStorage.getItem('token')
+                    }
+                }
             );
             console.log(response);
             if(response.data.length === 0) {
@@ -75,12 +79,17 @@ export default {
         }
     },
     async countBugs () {
+        // const token = this.$store.getters.userToken
         try{
             const response = await axios.get(
-                'https://bugtracker-springboot.herokuapp.com/projects/bugs'
+                '/projects/bugs',
+                { headers: {
+                    'Authorization' :'Bearer ' + localStorage.getItem('token')
+                    }
+                }
             );
-            // console.log(response);
-            // console.log('count bug is ' + response.data)
+            console.log(response);
+            console.log('count bug is ' + response.data)
             if(response.data === undefined) {
                 this.totalBugs = 0;
                 return;
@@ -94,7 +103,6 @@ export default {
     }
   },
   mounted() {
-      
       this.countProjects();
       this.countBugs();
       this.loading = false;

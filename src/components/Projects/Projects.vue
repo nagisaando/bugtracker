@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <router-link to="/">
+            <router-link to="/Home">
                 <button class="bg-green-400 py-2 px-3 rounded text-white hover:bg-green-300 float-right">Go Back</button>
             </router-link>            
         </div>
@@ -109,9 +109,14 @@ export default {
     async mounted () {
         try{
             const response = await axios.get(
-                'http://bugtracker-springboot.herokuapp.com/projects'
+                '/projects',
+                { headers: {
+                    'Authorization' :'Bearer ' + localStorage.getItem('token')
+                }
+                }
             );
             this.projects = response.data;
+            console.log(this.projects)
         } catch(err){
             alert(err.msg);
             console.log(err.response);

@@ -1,15 +1,19 @@
 <template>
     
-        <nav class="bg-gray-900 pt-2 md:pt-1 pb-1 px-1 mt-0 h-auto fixed w-full z-20 top-0">
+        <nav class="bg-gray-900 pt-2 md:pt-1 pb-1 px-1 mt-0 fixed w-full z-20 top-0">
 
             <div class="flex flex-wrap items-center mt-3 mb-3">
-                <div class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
-                    <router-link to="/">
+
+                <div v-if="auth" class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white">
+                    <router-link to="/Home">
                         <span class="text-xl pl-2"><i class="fas fa-home"></i></span>
                     </router-link>
                 </div>
+                 <div v-if="!auth" class="flex flex-shrink justify-center md:justify-start ml-auto mr-4 text-white ">
+                    <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block">Contact</a>
+                </div>
 
-                <div class="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
+                <div v-if="auth" class="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2">
                     <span class="relative w-full">
                         <input type="search" placeholder="Search" class="w-full bg-gray-800 text-sm text-white transition border border-transparent focus:outline-none focus:border-gray-700 rounded py-1 px-2 pl-10 appearance-none leading-normal">
                         <div class="absolute search-icon" style="top: .5rem; left: .8rem;">
@@ -21,7 +25,7 @@
                 </div>
 
                 
-                <div class="flex mr-3 pt-2 content-center justify-between md:w-1/3 md:justify-end">
+                <div v-if="auth" class="flex mr-3 pt-2 content-center justify-between md:w-1/3 md:justify-end">
                     <!-- <ul class="list-reset"> -->
                     <!-- <ul class="list-reset flex justify-between flex-1 md:flex-none items-center"> -->
                         <!-- <li class="flex-1 md:flex-none md:mr-3">
@@ -33,13 +37,16 @@
                         <!-- <li class="flex-1 md:flex-none md:mr-3"> -->
                         <!-- <li class="md: " > -->
                             <div class="relative inline-block">
-                                <button @click= "invisible = !invisible" onclick="toggleDD('myDropdown')" class="drop-button text-white focus:outline-none"> <span class="pr-2"><i class="em em-robot_face"></i></span> Hi, User <svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg></button>
-                                <div id="myDropdown" class="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 rounded-md" :class="{'invisible': invisible}">
+                                <button @click="open = !open" class="drop-button text-white focus:outline-none"> <span class="pr-2"><i class="em em-robot_face"></i></span>{{  userName  }}<svg class="h-3 fill-current inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg></button>
+                                <div v-if="open" class="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 rounded-md">
                                     <input type="text" class="drop-search p-2 text-gray-600" placeholder="Search.." id="myInput" onkeyup="filterDD('myDropdown','myInput')">
-                                    <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-user fa-fw"></i> Profile</a>
-                                    <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-cog fa-fw"></i> Settings</a>
+                                    <!-- <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-user fa-fw"></i> Profile</a>
+                                    <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fa fa-cog fa-fw"></i> Settings</a> -->
                                     <div class="border border-gray-800"></div>
-                                    <a href="#" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-sign-out-alt fa-fw"></i> Log Out</a>
+                                    <router-link to='/'>
+                                        <div @click="onLogout" class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"><i class="fas fa-sign-out-alt fa-fw"></i> Log Out</div>
+                                    </router-link>
+                                    
                                 </div>
                             </div>
                         <!-- </li> -->
@@ -58,8 +65,23 @@
 export default {
     data: function() {
         return {
-            invisible: true
+            invisible: true,
+            open: false
         }
-    }
+    },
+    methods: {
+        onLogout(){
+            this.$store.dispatch('logout')
+            this.open = false
+        }
+    },
+    computed: {
+      auth () {
+        return this.$store.getters.userToken
+      },
+      userName () {
+          return localStorage.getItem('userName')
+      }
+    },
 }
 </script>
