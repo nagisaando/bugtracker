@@ -100,6 +100,7 @@
 </template>
 
 <script>
+	import router from '../../router'
 	export default {
 		data: function() {
 			return {
@@ -111,7 +112,7 @@
 			onLogout() {
 				this.$store.dispatch('logout');
 				this.open = false;
-				this.$router.push('/').catch(() => {});
+				router.replace('/').catch(() => {});
 			},
 		},
 		computed: {

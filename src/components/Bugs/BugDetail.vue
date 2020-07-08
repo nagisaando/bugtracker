@@ -169,6 +169,7 @@
 			},
 		},
 		async mounted() {
+			this.$store.dispatch('checkLoginStatus');
 			try {
 				const response = await axios.get(
 					`/projects/${this.id}/bugs/${this.bugId}`,

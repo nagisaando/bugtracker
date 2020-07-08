@@ -22,7 +22,7 @@ export default new Vuex.Store({
         }
     },
     actions: {
-        setLogoutTimer ({commit, }, expirationTime) {
+        setLogoutTimer ({commit}, expirationTime) {
             console.log(expirationTime)
             setTimeout(() => {
                 commit('clearAuthData')
@@ -71,7 +71,7 @@ export default new Vuex.Store({
                         user: authData.username
                     })
                     dispatch('setLogoutTimer', 36000000)
-                    router.replace('/home')
+                    router.replace('home')
                 })
                 .catch(err => console.log(err))
                 
@@ -81,12 +81,18 @@ export default new Vuex.Store({
             const token = localStorage.getItem('token')
             if(!token) {
                 console.log('no token')
+                this.dispatch('logout')
                 return
             }
             const expirationDate = localStorage.getItem('expirationDate')
             const now = Date.now()
+            console.log('now ' + now)
+            console.log('expire ' + expirationDate)
+            
             if(now >= expirationDate) {
                 console.log('date expired')
+                router.replace('/')
+                this.dispatch('logout')
                 return
             }
             const userId = localStorage.getItem('userName')
@@ -95,7 +101,7 @@ export default new Vuex.Store({
                 user: userId
             })
             console.log('reload to home')
-            router.replace('/home')
+            router.replace('home')
             
             
         },
@@ -103,15 +109,17 @@ export default new Vuex.Store({
             console.log('checking')
             const token = localStorage.getItem('token')
             if(!token) {
+                alert('login is expired!Back to re-login again!')
                 console.log('no token')
-                router.replace('/')
+                this.dispatch('logout')
                 return
             }
             const expirationDate = localStorage.getItem('expirationDate')
             const now = Date.now()
             if(now >= expirationDate) {
+                alert('login is expired! Back to re-login again!')
                 console.log('date expired')
-                router.replace('/')
+                this.dispatch('logout')
                 return
             }
             const userId = localStorage.getItem('userName')
@@ -127,7 +135,7 @@ export default new Vuex.Store({
             localStorage.removeItem('token')
             localStorage.removeItem('userName')
             // localStorage.clear() 
-            router.replace('/signin')
+            router.replace('signin')
         }
     },
     getters: {

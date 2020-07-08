@@ -117,6 +117,9 @@
 					console.log(err.response);
 				}
 			},
+			mounted() {
+				this.$store.dispatch('checkLoginStatus');
+			}
 		},
 		validations: {
 			name: { required },

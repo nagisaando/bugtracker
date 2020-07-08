@@ -67,20 +67,21 @@
 					</div>
 				</div>
 				<div>
+					<router-link v-bind:to="`/projectDetail/${id}/bugDetail/${bugId}`">
+						<button
+							class="bg-green-400 py-2 px-3 rounded text-white hover:bg-green-300"
+						>
+							Go Back
+						</button>
+					</router-link>
 					<button
-						class="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+						class="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded float-right"
 						type="submit"
 						@click="editProject"
 					>
 						Edit
 					</button>
-					<router-link to="/projects">
-						<button
-							class="bg-green-400 py-2 px-3 rounded text-white hover:bg-green-300 float-right"
-						>
-							Go Back
-						</button>
-					</router-link>
+
 				</div>
 			</form>
 		</div>
@@ -156,6 +157,7 @@
 			},
 		},
 		async mounted() {
+			this.$store.dispatch('checkLoginStatus');
 			try {
 				const response = await axios.get(
 					`/projects/${this.id}/bugs/${this.bugId}`,
