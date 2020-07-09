@@ -58,6 +58,7 @@ export default new Vuex.Store({
                 
         },
         login ({commit, dispatch}, authData) {
+            console.log('logging in///')
             axios.post('/authenticate', authData)
                 .then(res => {
                     console.log(res)

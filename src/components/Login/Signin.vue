@@ -3,7 +3,6 @@
 			<div class="flex justify-center my-2 mx-4 md:mx-0 lg:pt-20 pt-10">
 			<form 
 				class="w-full max-w-lg bg-white rounded-lg shadow-md p-6"
-				@submit.prevent="onSubmit"
 			>
 				
 				<div class="text-center">
@@ -22,8 +21,10 @@
 							class="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
 							type="text"
 							required
-							v-model="userName"
+							v-model="username"
+							:class="{'border-red-500': usernameError}"
 						/>
+						<p class="text-red-500 text-sm" v-if="usernameError">Username is required</p>
 					</div>
 					<div class="w-full md:w-full px-3 mb-6">
 						<label
@@ -36,34 +37,16 @@
 							type="password"
 							required
 							v-model="password"
+							:class="{'border-red-500': passwordError}"
+
 						/>
-					</div>
-					<div
-						class="w-full flex items-center justify-between px-3 mb-3"
-					>
-						<label for="remember" class="flex items-center w-1/2">
-							<input
-								type="checkbox"
-								name
-								id
-								class="mr-1 bg-white shadow"
-							/>
-							<span class="text-sm text-gray-700 pt-1"
-								>Remember Me</span
-							>
-						</label>
-						<div class="w-1/2 text-right">
-							<a
-								href="#"
-								class="text-blue-500 text-sm tracking-tight"
-								>Forget your password?</a
-							>
-						</div>
+						<p class="text-red-500 text-sm" v-if="passwordError">Password is required</p>
 					</div>
 					<div class="w-full md:w-full px-3">
 						<button
 							class="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500"
 							type="submit"
+							@click.prevent="onSubmit"
 						>
 							Sign in
 						</button>
@@ -83,22 +66,50 @@
 
 </template>
 <script>
+import { required } from 'vuelidate/lib/validators';
 export default {
 	data (){
 		return {
-			userName: '',
-			password: ''
+			username: '',
+			password: '',
+			passwordError: false,
+			usernameError: false
 		}
 	},
 	methods: {
 		onSubmit (){
+			this.checkForm()
+			console.log(this.username)
+			console.log(this.password)
+			if(this.username === "" || this.password === "") {
+				return;
+			}
 			const formData = {
-				username: this.userName,
+				username: this.username,
 				password: this.password
 			}
 			console.log(formData)
 			this.$store.dispatch('login', formData)
-		}
-	}
+		},
+		checkForm() {
+			this.$v.$touch();
+			if (this.$v.password.$invalid) {
+				this.passwordError = true;
+				console.log(this.passwordError)
+			} else {
+				this.passwordError = false;
+			}
+			if (this.$v.username.$invalid) {
+				this.usernameError = true;
+			} else {
+				this.usernameError = false;
+			}
+		},
+	},
+	validations: {
+			username: { required },
+			password: { required }
+
+		},
 }
 </script>
