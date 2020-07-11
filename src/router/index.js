@@ -5,14 +5,14 @@ Vue.use(VueRouter)
 
   const routes = [
   {
-    path: '/signIn',
-    name: 'SignIn',
-    component: () => import('../components/Login/Signin.vue')
-  },
-  {
     path: '/',
     name: 'welcome',
     component: () => import('../components/Welcome/Welcome.vue')
+  },
+  {
+    path: '/signIn',
+    name: 'SignIn',
+    component: () => import('../components/Login/Signin.vue')
   },
   {
     path: '/signUp',
@@ -64,12 +64,12 @@ Vue.use(VueRouter)
         name: 'BugEdit',
         component: () => import('../components/Bugs/BugEdit.vue')
       },
-      {
-        path :'*',
-        component: () => import('../views/Error.vue')
-      }
     ]
   },
+  {
+    path :'*',
+    component: () => import('../views/Error.vue')
+  }
  
 ]
 
@@ -78,13 +78,5 @@ const router = new VueRouter({
   mode: 'history',
 })
 
-// export default new Router({  
-//   mode: 'history',
-//   routes: []
-// })
 
 export default router
-// export default new Router({  
- 
-//   routes: []
-// })

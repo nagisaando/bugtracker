@@ -74,7 +74,12 @@ export default new Vuex.Store({
                     dispatch('setLogoutTimer', 36000000)
                     router.replace('home')
                 })
-                .catch(err => console.log(err))
+                .catch(err => {
+                    if (err.response.status === 500) {
+                        alert('your username or password is incorrect!')
+                    }
+                    console.log(err)
+                })
                 
         },
         tryAutoLogin ({commit}) {
