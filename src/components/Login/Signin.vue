@@ -89,6 +89,7 @@ export default {
 				password: this.password
 			}
 			console.log(formData)
+			this.$store.dispatch('showSpinner', true)
 			this.$store.dispatch('login', formData)
 		},
 		checkForm() {

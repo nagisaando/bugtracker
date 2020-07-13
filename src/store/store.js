@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import userService from './userService'
+import loading from './loading'
 import axios from 'axios'
 import router from '../router'
 Vue.use(Vuex)
@@ -52,9 +52,11 @@ export default new Vuex.Store({
                         user: authData.username
                     })
                     dispatch('setLogoutTimer', 36000000)
+                    dispatch('showSpinner', false)
                     router.replace('/home')
                 })
                 .catch(err => console.log(err))
+                dispatch('showSpinner', false)
                 
         },
         login ({commit, dispatch}, authData) {
@@ -72,11 +74,14 @@ export default new Vuex.Store({
                         user: authData.username
                     })
                     dispatch('setLogoutTimer', 36000000)
+                    dispatch('showSpinner', false)
                     router.replace('home')
                 })
                 .catch(err => {
-                    if (err.response.status === 500) {
+                    if (err.response.status <= 500 && err.response.status >= 500) {
                         alert('your username or password is incorrect!')
+                        dispatch('showSpinner', false)
+
                     }
                     console.log(err)
                 })
@@ -103,15 +108,17 @@ export default new Vuex.Store({
             }
             const userId = localStorage.getItem('userName')
             commit('authUser', {
-                // token: token,
+                token: token,
                 user: userId
             })
             console.log('reload to home')
             router.replace('home')
+            // dispatch('showSpinner', true)
             
             
         },
         checkLoginStatus ({commit}) {
+            // dispatch('showSpinner', true)
             console.log('checking')
             const token = localStorage.getItem('token')
             if(!token) {
@@ -133,15 +140,17 @@ export default new Vuex.Store({
                 token: token,
                 user: userId
             })
+            // dispatch('showSpinner', false)
             
         },
-        logout ({commit}) {
+        logout ({commit, dispatch}) {
             commit('clearAuthData')
             localStorage.removeItem('expirationDate')
             localStorage.removeItem('token')
             localStorage.removeItem('userName')
             // localStorage.clear() 
             router.replace('signin')
+            dispatch('showSpinner', false)
         }
     },
     getters: {
@@ -153,6 +162,6 @@ export default new Vuex.Store({
         }
     },
     modules: {
-        userService
+        loading
     }
 })

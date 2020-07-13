@@ -135,6 +135,7 @@ export default {
 				username: this.username
 			}
 			console.log(formData)
+			this.$store.dispatch('showSpinner', true)
 			this.$store.dispatch('signup', formData)
 		},
 		checkForm() {

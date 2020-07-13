@@ -67,8 +67,14 @@ Vue.use(VueRouter)
     ]
   },
   {
-    path :'*',
+    path: 'error',
+    name: 'Error',
     component: () => import('../views/Error.vue')
+
+  },
+  {
+    path :'*',
+    redirect: {name: 'Error'}
   }
  
 ]

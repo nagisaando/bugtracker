@@ -69,57 +69,107 @@
 			return {
 				totalProjects: 0,
 				totalBugs: 0,
-				loading: false,
 			};
 		},
 		methods: {
-			async countProjects() {
+			async showTotal() {
 				this.$store.dispatch('checkLoginStatus');
+				const vm = this
 				try {
-					const response = await axios.get('/projects', {
-						headers: {
-							Authorization:
-								'Bearer ' + localStorage.getItem('token'),
-						},
-					});
-					console.log(response);
-					if (response.data.length === 0) {
-						return;
-					} else {
-						this.totalProjects = response.data.length;
-					}
+					axios.all([
+						axios.get('/projects', {
+							headers: {
+								Authorization: 'Bearer ' + localStorage.getItem('token'),
+							},
+						}),
+						axios.get('/projects/bugs', {
+							headers: {
+								Authorization: 'Bearer ' + localStorage.getItem('token'),
+							},
+						})
+					])
+					.then(responseArr => {
+						if (responseArr[0].data.length === 0) {
+							return;
+						} else {
+						this.totalProjects = responseArr[0].data.length;
+						}	
+						if (responseArr[1].data === undefined) {
+							return this.totalBugs = 0;
+						} else {
+							this.totalBugs = responseArr[1].data.bug_count;
+						}
+						// vm.$store.dispatch('showSpinner', false)
+						console.log('rendered')
+					})
 				} catch (err) {
 					alert(err.msg);
 					console.log(err.response);
+				} finally {
+					console.log('done')
+					vm.$store.dispatch('showSpinner', false)
+					// setTimeout(() => {
+			
+				// vm.$store.dispatch('showSpinner', true)
 				}
+				
 			},
-			async countBugs() {
-				this.$store.dispatch('checkLoginStatus');
-				try {
-					const response = await axios.get('/projects/bugs', {
-						headers: {
-							Authorization:
-								'Bearer ' + localStorage.getItem('token'),
-						},
-					});
-					console.log(response);
-					console.log('count bug is ' + response.data);
-					if (response.data === undefined) {
-						this.totalBugs = 0;
-						return;
-					} else {
-						this.totalBugs = response.data.bug_count;
-					}
-				} catch (err) {
-					alert(err.msg);
-					console.log(err.response);
-				}
-			},
+
+			// async countProjects() {
+			// 	console.log('checking status')
+			// 	this.$store.dispatch('checkLoginStatus');
+			// 	// this.$store.dispatch('showSpinner', true)
+			// 	try {
+			// 		const response = await axios.get('/projects', {
+			// 			headers: {
+			// 				Authorization:
+			// 					'Bearer ' + localStorage.getItem('token'),
+			// 			},
+			// 		});
+			// 		console.log(response);
+			// 		if (response.data.length === 0) {
+			// 			return;
+			// 		} else {
+			// 			this.totalProjects = response.data.length;
+			// 		}
+			// 		this.$store.dispatch('showSpinner', false)
+			// 	} catch (err) {
+			// 		alert(err.msg);
+			// 		console.log(err.response);
+			// 	}
+			// },
+			// async countBugs() {
+			// 	console.log('checking status')
+			// 	this.$store.dispatch('checkLoginStatus');
+			// 	// this.$store.dispatch('showSpinner', true)
+			// 	try {
+			// 		const response = await axios.get('/projects/bugs', {
+			// 			headers: {
+			// 				Authorization:
+			// 					'Bearer ' + localStorage.getItem('token'),
+			// 			},
+			// 		});
+			// 		console.log(response);
+			// 		console.log('count bug is ' + response.data);
+			// 		if (response.data === undefined) {
+			// 			this.totalBugs = 0;
+			// 			return;
+			// 		} else {
+			// 			this.totalBugs = response.data.bug_count;
+			// 		}
+			// 		this.$store.dispatch('showSpinner', false)
+			// 	} catch (err) {
+			// 		alert(err.msg);
+			// 		console.log(err.response);
+			// 	}
+			// },
 		},
 		mounted() {
-			this.countProjects();
-			this.countBugs();
-			this.loading = false;
+			this.showTotal();
 		},
+		created() {
+			this.$store.dispatch('showSpinner', true)	
+		}
+
 	};
 </script>
