@@ -82,7 +82,7 @@
 						<button
 							class="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500"
 							type="submit"
-							@click="onSubmit"
+							@click.prevent="onSubmit"
 						>
 							Sign up
 						</button>
@@ -123,20 +123,23 @@ export default {
 				this.lastName === "" ||
 				this.email === "" ||
 				this.username === "" ||
-				this.password === ""
+				this.password === "" ||
+				this.password.length < 9 ||
+				this.username.length < 9
 				) {
 				return;
+			} else {
+				const formData = {
+					first_name: this.firstName,
+					last_name: this.lastName,
+					password: this.password,
+					email: this.email,
+					username: this.username
+				}
+				console.log(formData)
+				this.$store.dispatch('showSpinner', true)
+				this.$store.dispatch('signup', formData)
 			}
-			const formData = {
-				first_name: this.firstName,
-				last_name: this.lastName,
-				password: this.password,
-				email: this.email,
-				username: this.username
-			}
-			console.log(formData)
-			this.$store.dispatch('showSpinner', true)
-			this.$store.dispatch('signup', formData)
 		},
 		checkForm() {
 			this.$v.$touch();

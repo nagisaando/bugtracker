@@ -175,8 +175,7 @@ export default {
                 );
                 this.project = response.data;
             } catch (err) {
-                console.log(err.message)
-                console.log(err.response)
+                alert('something went wrong, please try it again.' + err.message)
             }
 
         },
@@ -190,8 +189,7 @@ export default {
                 ); 
                 this.bugs = response.data;
             } catch(err) {
-                console.log(err.message);
-                console.log(err.response);
+                alert('something went wrong, please try it again.' + err.message)
             }
         },
         async deleteProject() {
@@ -205,8 +203,7 @@ export default {
                 )
                 this.hasDeleted = true;
             } catch(err) {
-                console.log(err.message);
-                console.log(err.response);
+                alert('something went wrong, please try it again.' + err.message)
             }
         },
         checkStatus() {
@@ -224,7 +221,6 @@ export default {
 			var category = this.selectedCategory;
 			
 			if(category === "All") {
-                console.log(this.bugs)
 				return this.bugs;
 			} else if (category === "Pending"){
 				return this.bugs.filter(function(bugs) {

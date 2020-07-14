@@ -151,7 +151,7 @@
 		methods: {
 			async deleteBugs() {
 				try {
-					const response = await axios.delete(
+					await axios.delete(
 						`/projects/${this.id}/bugs/${this.bugId}`,
 						{
 							headers: {
@@ -160,11 +160,9 @@
 							},
 						}
 					);
-					console.log(response.data);
 					this.hasDeleted = true;
 				} catch (err) {
-					console.log(err.message);
-					console.log(err.response);
+					alert('Something went wrong! Please try it again.' + err.message)
 				}
 			},
 		},
@@ -180,11 +178,9 @@
 						},
 					}
 				);
-				console.log(response.data);
 				this.bug = response.data;
 			} catch (err) {
-				console.log(err.message);
-				console.log(err.response);
+				alert('something went wrong, please try it again.' + err.message)
 			}
 		},
 	};

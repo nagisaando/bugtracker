@@ -96,8 +96,7 @@
 				});
 				this.projects = response.data;
 			} catch (err) {
-				alert(err.msg);
-				console.log(err.response);
+				alert('something went wrong, please try it again.' + err.message)
 			}
 		},
 	};

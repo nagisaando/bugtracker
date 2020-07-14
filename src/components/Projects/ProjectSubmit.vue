@@ -85,36 +85,30 @@
 				this.$v.$touch();
 				if (this.$v.name.$invalid) {
 					this.isError = true;
-					console.log(this.isError);
 				} else {
 					this.isError = false;
 				}
 			},
 			async createProject() {
 				if (this.name === '') {
-					console.log(this.name);
 					return;
 				}
 				try {
-					console.log(this.name);
 					const post = {
 						description: this.description,
 						name: this.name,
 					};
-					console.log(post);
-					const project = await axios.post('/projects', post, {
+					await axios.post('/projects', post, {
 						headers: {
 							Authorization:
 								'Bearer ' + localStorage.getItem('token'),
 						},
 					});
-					console.log(project);
 					this.name = '';
 					this.description = '';
 					await this.$router.push({ path: `/projects` });
 				} catch (err) {
-					alert(err.message);
-					console.log(err.response);
+					alert('something went wrong, please try it again.' + err.message)
 				}
 			},
 			mounted() {

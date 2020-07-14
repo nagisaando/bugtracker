@@ -5,13 +5,11 @@
 	>
 		<NavBar />
 		<div v-if="!auth" class="relative pt-20 md:pt-0 min-h-screen w-full">
-			<Loading v-if="loading"></Loading>
-			<router-view v-else></router-view>
+			<router-view></router-view>
 		</div>
 		<div v-if="auth" class="flex flex-col md:flex-row min-h-screen">
 			<LeftBar></LeftBar>
-			<Loading v-if="loading"></Loading>
-			<router-view v-else></router-view>
+			<router-view></router-view>
 		</div>
 	</div>
 </template>
@@ -19,7 +17,6 @@
 <script>
 	import NavBar from './components/Header/Navbar.vue';
 	import LeftBar from './components/Header/LeftBar.vue';
-	import Loading from './components/Loading/Loading.vue'
 
 	export default {
 		data: function() {
@@ -31,9 +28,6 @@
 			auth() {
 				return this.$store.getters.userToken;
 			},
-			loading() {
-				return this.$store.getters.checkLoading
-			}
 		},
 		created() {
 			this.HomeIsActive = false;
@@ -45,7 +39,6 @@
 		components: {
 			NavBar,
 			LeftBar,
-			Loading
 		},
 	};
 </script>

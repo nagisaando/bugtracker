@@ -86,24 +86,20 @@
 				this.$v.$touch();
 				if (this.$v.name.$invalid) {
 					this.isError = true;
-					console.log(this.isError);
 				} else {
 					this.isError = false;
 				}
 			},
 			async editProject() {
 				if (this.name === '') {
-					console.log(this.name);
 					return;
 				}
 				try {
-					console.log(this.name);
 					const post = {
 						description: this.description,
 						name: this.name,
 					};
-					console.log(post);
-					const project = await axios.put(
+					await axios.put(
 						`/projects/${this.id}`,
 						post,
 						{
@@ -113,16 +109,13 @@
 							},
 						}
 					);
-					console.log(project);
 					this.name = '';
 					this.description = '';
-					let response = await this.$router.push({
+					await this.$router.push({
 						path: `/projectDetail/${this.id}`,
 					});
-					console.log(response);
 				} catch (err) {
-					alert(err.message);
-					console.log(err.response);
+					alert('something went wrong, please try it again.' + err.message)
 				}
 			},
 		},
@@ -135,13 +128,11 @@
 							'Bearer ' + localStorage.getItem('token'),
 					},
 				});
-				console.log(response.data);
 				this.project = response.data;
 				this.name = this.project.name;
 				this.description = this.project.description;
 			} catch (err) {
-				console.log(err.message);
-				console.log(err.response);
+				alert('something went wrong, please try it again.' + err.message)
 			}
 		},
 		validations: {

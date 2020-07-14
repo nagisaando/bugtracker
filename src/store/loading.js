@@ -10,13 +10,11 @@ const getters = {
 const mutations = {
     changeLoading(state, boolean) {
         state.loading = boolean
-        console.log(state.loading)
     }
 }
 
 const actions = {
     showSpinner({commit}, boolean) {
-        console.log('loadding starts')
         commit('changeLoading', boolean)
     }
 }

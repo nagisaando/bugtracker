@@ -120,7 +120,7 @@
 				return this.$store.getters.userToken;
 			},
 			userName() {
-				return localStorage.getItem('userName');
+				return this.$store.getters.userData;
 			},
 		},
 	};

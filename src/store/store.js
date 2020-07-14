@@ -12,7 +12,6 @@ export default new Vuex.Store({
     },
     mutations: {
         authUser (state, userInfo) {
-            console.log(userInfo)
             state.idToken = userInfo.token
             state.userData = userInfo.user
         },
@@ -23,24 +22,18 @@ export default new Vuex.Store({
     },
     actions: {
         setLogoutTimer ({commit}, expirationTime) {
-            console.log(expirationTime)
             setTimeout(() => {
                 commit('clearAuthData')
                 this.dispatch('logout')
             }, expirationTime)
         },
         signup ({commit, dispatch}, authData) {
-            console.log(authData)
             axios.post('/users/registration', authData)
-                .then(res => {
-                    console.log(res)
-                })
             axios.post('/authenticate', {
                 username: authData.username,
                 password: authData.password
             })
                 .then(res => {
-                    console.log(res)
                     const now = new Date()
                     const expirationDate = now.getTime() + 36000000
                     localStorage.setItem('token', res.data.jwt)
@@ -55,15 +48,13 @@ export default new Vuex.Store({
                     dispatch('showSpinner', false)
                     router.replace('/home')
                 })
-                .catch(err => console.log(err))
+                .catch(err => alert('something went wrong, please try it again.' + err.message))
                 dispatch('showSpinner', false)
                 
         },
         login ({commit, dispatch}, authData) {
-            console.log('logging in///')
             axios.post('/authenticate', authData)
                 .then(res => {
-                    console.log(res)
                     const now = new Date()
                     const expirationDate = now.getTime() + 36000000
                     localStorage.setItem('token', res.data.jwt)
@@ -74,7 +65,7 @@ export default new Vuex.Store({
                         user: authData.username
                     })
                     dispatch('setLogoutTimer', 36000000)
-                    dispatch('showSpinner', false)
+                    // dispatch('showSpinner', false)
                     router.replace('home')
                 })
                 .catch(err => {
@@ -82,27 +73,21 @@ export default new Vuex.Store({
                         alert('your username or password is incorrect!')
                         dispatch('showSpinner', false)
 
+                    } else { 
+                        alert('something went wrong, please try it again.' + err.message)
                     }
-                    console.log(err)
                 })
                 
         },
         tryAutoLogin ({commit}) {
-            console.log('checking')
             const token = localStorage.getItem('token')
             if(!token) {
-                console.log('no token')
                 this.dispatch('logout')
                 return
             }
             const expirationDate = localStorage.getItem('expirationDate')
             const now = Date.now()
-            console.log('now ' + now)
-            console.log('expire ' + expirationDate)
-            
             if(now >= expirationDate) {
-                console.log('date expired')
-                router.replace('/')
                 this.dispatch('logout')
                 return
             }
@@ -111,19 +96,16 @@ export default new Vuex.Store({
                 token: token,
                 user: userId
             })
-            console.log('reload to home')
             router.replace('home')
-            // dispatch('showSpinner', true)
+            
             
             
         },
-        checkLoginStatus ({commit}) {
-            // dispatch('showSpinner', true)
-            console.log('checking')
+        checkLoginStatus ({commit, dispatch}) {
+            dispatch('showSpinner', true)
             const token = localStorage.getItem('token')
             if(!token) {
                 alert('login is expired!Back to re-login again!')
-                console.log('no token')
                 this.dispatch('logout')
                 return
             }
@@ -131,7 +113,6 @@ export default new Vuex.Store({
             const now = Date.now()
             if(now >= expirationDate) {
                 alert('login is expired! Back to re-login again!')
-                console.log('date expired')
                 this.dispatch('logout')
                 return
             }
@@ -149,7 +130,7 @@ export default new Vuex.Store({
             localStorage.removeItem('token')
             localStorage.removeItem('userName')
             // localStorage.clear() 
-            router.replace('signin')
+            router.replace('/')
             dispatch('showSpinner', false)
         }
     },
@@ -159,6 +140,9 @@ export default new Vuex.Store({
         },
         isAuthenticated (state) {
             return state.idToken !== null
+        },
+        userData (state) {
+            return state.userData
         }
     },
     modules: {

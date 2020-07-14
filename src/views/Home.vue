@@ -1,5 +1,7 @@
 <template>
 	<div class="main-content flex-1 bg-gray-100 pb-24 md:pb-5">
+		<Loading v-if="loading"></Loading>
+		<div v-else>
 		<div class="bg-blue-800 p-2 shadow text-xl text-white">
 			<h3 class="font-bold pl-2">Summary</h3>
 		</div>
@@ -58,10 +60,12 @@
 				<!--/Metric Card-->
 			</div>
 		</div>
+		</div>
 	</div>
 </template>
 
 <script>
+	import Loading from '../components/Loading/Loading.vue'
 	import axios from 'axios';
 	export default {
 		name: 'Home',
@@ -69,6 +73,7 @@
 			return {
 				totalProjects: 0,
 				totalBugs: 0,
+
 			};
 		},
 		methods: {
@@ -90,86 +95,38 @@
 					])
 					.then(responseArr => {
 						if (responseArr[0].data.length === 0) {
-							return;
+							this.totalProjects = 0;
 						} else {
 						this.totalProjects = responseArr[0].data.length;
 						}	
 						if (responseArr[1].data === undefined) {
-							return this.totalBugs = 0;
+							this.totalBugs = 0;
 						} else {
 							this.totalBugs = responseArr[1].data.bug_count;
 						}
-						// vm.$store.dispatch('showSpinner', false)
-						console.log('rendered')
+						
+						console.log('yes')
+						setTimeout(()=> {
+							vm.$store.dispatch('showSpinner', false)
+						}, 2000)
 					})
 				} catch (err) {
-					alert(err.msg);
-					console.log(err.response);
-				} finally {
-					console.log('done')
-					vm.$store.dispatch('showSpinner', false)
-					// setTimeout(() => {
-			
-				// vm.$store.dispatch('showSpinner', true)
-				}
+					alert('something went wrong, please try it again.' + err.message)
+				} 
 				
 			},
-
-			// async countProjects() {
-			// 	console.log('checking status')
-			// 	this.$store.dispatch('checkLoginStatus');
-			// 	// this.$store.dispatch('showSpinner', true)
-			// 	try {
-			// 		const response = await axios.get('/projects', {
-			// 			headers: {
-			// 				Authorization:
-			// 					'Bearer ' + localStorage.getItem('token'),
-			// 			},
-			// 		});
-			// 		console.log(response);
-			// 		if (response.data.length === 0) {
-			// 			return;
-			// 		} else {
-			// 			this.totalProjects = response.data.length;
-			// 		}
-			// 		this.$store.dispatch('showSpinner', false)
-			// 	} catch (err) {
-			// 		alert(err.msg);
-			// 		console.log(err.response);
-			// 	}
-			// },
-			// async countBugs() {
-			// 	console.log('checking status')
-			// 	this.$store.dispatch('checkLoginStatus');
-			// 	// this.$store.dispatch('showSpinner', true)
-			// 	try {
-			// 		const response = await axios.get('/projects/bugs', {
-			// 			headers: {
-			// 				Authorization:
-			// 					'Bearer ' + localStorage.getItem('token'),
-			// 			},
-			// 		});
-			// 		console.log(response);
-			// 		console.log('count bug is ' + response.data);
-			// 		if (response.data === undefined) {
-			// 			this.totalBugs = 0;
-			// 			return;
-			// 		} else {
-			// 			this.totalBugs = response.data.bug_count;
-			// 		}
-			// 		this.$store.dispatch('showSpinner', false)
-			// 	} catch (err) {
-			// 		alert(err.msg);
-			// 		console.log(err.response);
-			// 	}
-			// },
 		},
 		mounted() {
 			this.showTotal();
 		},
-		created() {
-			this.$store.dispatch('showSpinner', true)	
-		}
+		computed: {
+			loading() {
+				return this.$store.getters.checkLoading
+			}
+		},
+		components: {
+			Loading
+		},
 
 	};
 </script>

@@ -109,7 +109,6 @@
 				this.$v.$touch();
 				if (this.$v.title.$invalid) {
 					this.isError = true;
-					console.log(this.isError);
 				} else {
 					this.isError = false;
 				}
@@ -125,16 +124,12 @@
 					} else {
 						bugStatus = 0;
 					}
-					console.log('bugStatus: ' + bugStatus);
-					console.log(this.title);
 					const data = {
 						status: bugStatus,
 						description: this.description,
 						title: this.title,
 					};
-
-					console.log(data.status);
-					const project = await axios.put(
+					await axios.put(
 						`/projects/${this.id}/bugs/${this.bugId}`,
 						data,
 						{
@@ -144,15 +139,13 @@
 							},
 						}
 					);
-					console.log(project);
 					this.title = '';
 					this.description = '';
 					await this.$router.push({
 						path: `/projectDetail/${this.id}/bugDetail/${this.bugId}`,
 					});
 				} catch (err) {
-					alert(err.message);
-					console.log(err.response);
+					alert('something went wrong, please try it again.' + err.message)
 				}
 			},
 		},
@@ -168,7 +161,6 @@
 						},
 					}
 				);
-				console.log(response.data);
 				this.bug = response.data;
 				this.title = this.bug.title;
 				this.description = this.bug.description;
@@ -177,10 +169,8 @@
 				} else {
 					this.checkStatus = 'Pending';
 				}
-				console.log(this.checkStatus);
 			} catch (err) {
-				console.log(err.message);
-				console.log(err.response);
+				alert('something went wrong, please try it again.' + err.message)
 			}
 		},
 		validations: {

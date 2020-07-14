@@ -83,13 +83,11 @@
 				this.$v.$touch();
 				if (this.$v.title.$invalid) {
 					this.isError = true;
-					console.log(this.isError);
 				} else {
 					this.isError = false;
 				}
 			},
 			async addBug() {
-				console.log(this.id);
 				if (this.title === '') {
 					return;
 				}
@@ -98,7 +96,7 @@
 						description: this.description,
 						title: this.title,
 					};
-					const project = await axios.post(
+					await axios.post(
 						`/projects/${this.id}/bugs`,
 						post,
 						{
@@ -108,15 +106,13 @@
 							},
 						}
 					);
-					console.log(project);
 					this.title = '';
 					this.description = '';
 					await this.$router.push({
 						path: `/projectDetail/${this.id}`,
 					});
 				} catch (err) {
-					alert(err.message);
-					console.log(err.response);
+					alert('something went wrong, please try it again.' + err.message)
 				}
 			},
 			mounted() {
