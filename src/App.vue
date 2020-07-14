@@ -4,7 +4,7 @@
 		class="bg-gray-100 font-sans leading-normal tracking-normal mt-16 min-h-full"
 	>
 		<NavBar />
-		<div v-if="!auth" class="relative pt-20 md:pt-0 min-h-screen w-full">
+		<div v-if="!auth" class="relative pt-20 md:pt-0 min-h-screen">
 			<router-view></router-view>
 		</div>
 		<div v-if="auth" class="flex flex-col md:flex-row min-h-screen">

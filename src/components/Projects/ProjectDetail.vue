@@ -5,9 +5,9 @@
             <!----------------top navigator part  ---------------------------------->
             <div class="py-16">
                 <div class="flex">
-                    <div class="flex-1 break-words">
-                        <h2 class="text-2xl w-1/3 font-semibold leading-tight">{{  project.name  }}</h2>
-                        <h1 class="italic w-1/3 text-gray-500 text-sm">{{  project.description  }}</h1>
+                    <div class="flex-1 break-words w-40">
+                        <h2 class="text-2xl font-semibold leading-tight">{{  project.name  }}</h2>
+                        <h1 class="italic text-gray-500 text-sm">{{  project.description  }}</h1>
                     </div>
                 <!---------------------- Delete and Edit part----------------------------- -->
                     <div class="flex-1">

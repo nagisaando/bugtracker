@@ -1,5 +1,5 @@
 <template>
-	<div class="container mx-auto px-4 sm:px-8 w-3/4">
+	<div class="container mx-auto px-4 sm:px-8 pb-20 md:pb-0 w-3/4">
 		<div class="py-8">
 			<div class="my-2 sm:flex-row flex-col">
 				<div class="flex-1 ">
