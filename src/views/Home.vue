@@ -66,63 +66,80 @@
 
 <script>
 	import Loading from '../components/Loading/Loading.vue'
-	import axios from 'axios';
+	import store from '../store/store';
+	// import axios from 'axios';
 	export default {
 		name: 'Home',
 		data() {
 			return {
-				totalProjects: 0,
-				totalBugs: 0,
+				
 
 			};
 		},
 		methods: {
-			async showTotal() {
-				this.$store.dispatch('checkLoginStatus');
-				const vm = this
-				try {
-					axios.all([
-						axios.get('/projects', {
-							headers: {
-								Authorization: 'Bearer ' + localStorage.getItem('token'),
-							},
-						}),
-						axios.get('/projects/bugs', {
-							headers: {
-								Authorization: 'Bearer ' + localStorage.getItem('token'),
-							},
-						})
-					])
-					.then(responseArr => {
-						if (responseArr[0].data.length === 0) {
-							this.totalProjects = 0;
-						} else {
-						this.totalProjects = responseArr[0].data.length;
-						}	
-						if (responseArr[1].data === undefined) {
-							this.totalBugs = 0;
-						} else {
-							this.totalBugs = responseArr[1].data.bug_count;
-						}
+			// async showTotal() {
+			// 	await this.$store.dispatch('checkLoginStatus');
+			// 	this.$store.dispatch('topPageshowSpinner', false)
+			// 	const vm = this
+			// 	try {
+			// 		axios.all([
+			// 			axios.get('/projects', {
+			// 				headers: {
+			// 					Authorization: 'Bearer ' + localStorage.getItem('token'),
+			// 				},
+			// 			}),
+			// 			axios.get('/projects/bugs', {
+			// 				headers: {
+			// 					Authorization: 'Bearer ' + localStorage.getItem('token'),
+			// 				},
+			// 			})
+			// 		])
+			// 		.then(responseArr => {
+			// 			if (responseArr[0].data.length === 0) {
+			// 				this.totalProjects = 0;
+			// 			} else {
+			// 			this.totalProjects = responseArr[0].data.length;
+			// 			}	
+			// 			if (responseArr[1].data === undefined) {
+			// 				this.totalBugs = 0;
+			// 			} else {
+			// 				this.totalBugs = responseArr[1].data.bug_count;
+			// 			}
 						
-						console.log('yes')
-						setTimeout(()=> {
-							vm.$store.dispatch('showSpinner', false)
-						}, 2000)
-					})
-				} catch (err) {
-					alert('something went wrong, please try it again.' + err.message)
-				} 
+			// 			console.log('yes')
+			// 			setTimeout(()=> {
+			// 				vm.$store.dispatch('showSpinner', false)
+			// 			}, 2000)
+			// 		})
+			// 	} catch (err) {
+			// 		alert('something went wrong, please try it again.' + err.message)
+			// 	} 
 				
-			},
+			// },
+		},
+		beforeRouteEnter(to, from, next) {
+			if(to.name === 'signIn' || to.name === 'signUp') {
+				next()
+			} else {
+				store.dispatch('fetchCount')
+				next()
+			}
 		},
 		mounted() {
-			this.showTotal();
+			// this.showTotal();
+			this.$store.dispatch('checkLoginStatus');
+			this.$store.dispatch('topPageshowSpinner', false);
 		},
 		computed: {
 			loading() {
 				return this.$store.getters.checkLoading
-			}
+			},
+			totalProjects() {
+				return this.$store.getters.getProjects
+			},
+			totalBugs() {
+				return this.$store.getters.getBugs
+			},
 		},
 		components: {
 			Loading

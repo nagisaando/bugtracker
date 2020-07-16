@@ -11,7 +11,7 @@ Vue.use(VueRouter)
   },
   {
     path: '/signIn',
-    name: 'SignIn',
+    name: 'signIn',
     component: () => import('../components/Login/Signin.vue')
   },
   {
