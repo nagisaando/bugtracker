@@ -5,29 +5,29 @@
 			class="container mx-auto px-4 sm:px-8 mt-10 md:flex md:justify-center mb-6"
 		>
 			<form
-				class="w-full max-w-lg bg-gray-100"
+				class="w-full max-w-lg"
 				@submit.prevent="checkForm"
 			>
 				<div class="mb-4">
-					<h2 class="text-2xl font-semibold leading-tight">
+					<h2 class="text-2xl font-semibold text-gray-600 leading-tight">
 						Submit New Project
 					</h2>
 				</div>
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+							class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
 							for="name"
 						>
 							Project
 						</label>
 						<input
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-							:class="{ 'border-red-500': isError }"
+							class="appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none nm-inset-gray-100 focus:nm-inset-gray-200"
+							:class="[{ 'border-red-500': isError }]"
 							name="name"
 							v-model="name"
 						/>
-						<p v-if="isError" class="text-gray-600 text-xs italic">
+						<p v-if="isError" class="text-red-600 text-xs italic">
 							this field is required
 						</p>
 					</div>
@@ -35,33 +35,30 @@
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+							class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
 							for="description"
 						>
 							Description
 						</label>
 						<textarea
-							class="no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
+							class="no-resize appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none nm-inset-gray-100 focus:nm-inset-gray-200 h-48 resize-none"
 							name="description"
 							v-model="description"
 						></textarea>
 					</div>
 				</div>
-				<div>
+				<div class="flex justify-between">
+					<router-link tag="button" to="/projects" class=" py-2 px-3 rounded text-gray-500 transition duration-300 ease-in-out nm-flat-gray-200 hover:nm-flat-gray-200-sm focus:outline-none">
+							Go Back
+					</router-link>
 					<button
-						class="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+						class="focus:outline-none py-2 px-4 rounded text-gray-700 transition duration-300 ease-in-out nm-flat-green-200 hover:nm-flat-green-200-sm"
 						type="submit"
 						@click="createProject"
 					>
 						Send
 					</button>
-					<router-link to="/projects">
-						<button
-							class="bg-green-400 py-2 px-3 rounded text-white hover:bg-green-300 float-right"
-						>
-							Go Back
-						</button>
-					</router-link>
+					
 				</div>
 			</form>
 		</div>

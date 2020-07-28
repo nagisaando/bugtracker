@@ -3,23 +3,23 @@
 		<LoadingTopPage v-if="loadingTopPage"></LoadingTopPage>
 		<div v-else>
 			<div class="text-center pt-16">
-				<h2 class="text-4xl tracking-tight">
+				<h2 class="text-4xl text-gray-700 tracking-tight">
 					Create Account
 				</h2>
 
-				<router-link to="/signIn">
+				<router-link to="/">
 					<div class="text-gray-500 hover:text-gray-700 text-sm">
-						Do you already have an account?
+						Sign in Your Account
 					</div>
 				</router-link>
 			</div>
 			<div class="flex justify-center my-2 mx-4 md:mx-0">
-				<form class="w-full max-w-xl bg-white rounded-lg shadow-md p-6">
-					<div class="flex flex-wrap -mx-3 mb-6">
+				<form class="w-full max-w-xl nm-flat-gray-100-lg rounded-lg shadow-md p-6">
+					<div class="flex w-5/6 mx-auto flex-wrap mt-5 mb-6">
 						<div class="flex w-full">
 							<div class="px-3 mb-6 w-1/2">
 								<input
-									class="w-full appearance-none bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 focus:outline-none"
+									class="w-full appearance-none nm-inset-gray-100 text-gray-500 font-medium rounded-lg py-3 px-3 focus:outline-none"
 									type="text"
 									required
 									placeholder="First Name"
@@ -29,7 +29,7 @@
 									}"
 								/>
 								<p
-									class="text-red-500 text-sm"
+									class="text-red-300 text-sm"
 									v-if="firstNameError"
 								>
 									First Name is required
@@ -37,7 +37,7 @@
 							</div>
 							<div class="px-3 mb-6 w-1/2">
 								<input
-									class="w-full appearance-none bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
+									class="w-full appearance-none nm-inset-gray-100 text-gray-500 font-medium rounded-lg py-3 px-3 leading-tight focus:outline-none"
 									type="text"
 									required
 									placeholder="Last Name"
@@ -45,7 +45,7 @@
 									:class="{ 'border-red-500': lastNameError }"
 								/>
 								<p
-									class="text-red-500 text-sm"
+									class="text-red-300 text-sm"
 									v-if="lastNameError"
 								>
 									LastName is required
@@ -55,20 +55,20 @@
 
 						<div class="w-full md:w-full px-3 mb-6">
 							<input
-								class="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
+								class="appearance-none block w-full nm-inset-gray-100 text-gray-500 font-medium rounded-lg py-3 px-3 leading-tight focus:outline-none"
 								type="email"
 								required
 								placeholder="Email Address"
 								v-model="email"
 								:class="{ 'border-red-500': emailError }"
 							/>
-							<p class="text-red-500 text-sm" v-if="emailError">
+							<p class="text-red-300 text-sm" v-if="emailError">
 								Password is required
 							</p>
 						</div>
 						<div class="w-full md:w-full px-3 mb-6">
 							<input
-								class="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
+								class="appearance-none block w-full nm-inset-gray-100 text-gray-500 font-medium rounded-lg py-3 px-3 leading-tight focus:outline-none"
 								type="text"
 								required
 								placeholder="User Name"
@@ -78,17 +78,17 @@
 								}"
 							/>
 							<p
-								class="text-red-500 text-sm"
+								class="text-red-300 text-sm"
 								v-if="usernameLengthError"
 							>
 								Username must have at least
 								{{ $v.username.$params.minLength.min }} letters.
 							</p>
-							<!-- <p class="text-red-500 text-sm" v-if="usernameError">Username is required</p> -->
+							<!-- <p class="text-red-300 text-sm" v-if="usernameError">Username is required</p> -->
 						</div>
 						<div class="w-full md:w-full px-3 mb-6">
 							<input
-								class="appearance-none block w-full bg-white text-gray-900 font-medium border border-gray-400 rounded-lg py-3 px-3 leading-tight focus:outline-none"
+								class="appearance-none block w-full nm-inset-gray-100 text-gray-500 font-medium rounded-lg py-3 px-3 leading-tight focus:outline-none"
 								type="password"
 								required
 								placeholder="Password"
@@ -98,17 +98,17 @@
 								}"
 							/>
 							<p
-								class="text-red-500 text-sm"
+								class="text-red-300 text-sm"
 								v-if="passwordLengthError"
 							>
 								Password must have at least
 								{{ $v.password.$params.minLength.min }} letters.
 							</p>
-							<!-- <p class="text-red-500 text-sm" v-if="passwordError">Password is required</p> -->
+							<!-- <p class="text-red-300 text-sm" v-if="passwordError">Password is required</p> -->
 						</div>
 						<div class="w-full md:w-full px-3">
 							<button
-								class="appearance-none block w-full bg-blue-600 text-gray-100 font-bold border border-gray-200 rounded-lg py-3 px-3 leading-tight hover:bg-blue-500 focus:outline-none focus:bg-white focus:border-gray-500"
+								class="appearance-none transition duration-200 ease-in-out block w-1/3 mx-auto mt-10 nm-convex-green-200 text-gray-700 hover:nm-convex-green-200-sm rounded-full font-bold py-3 px-3 leading-tight focus:outline-none"
 								type="submit"
 								@click.prevent="onSubmit"
 							>

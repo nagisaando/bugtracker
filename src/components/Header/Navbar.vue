@@ -1,45 +1,56 @@
 <template>
+<div>
+	
 	<nav
-		class="bg-gray-900 pt-2 md:pt-1 pb-1 px-1 mt-0 fixed w-full z-20 top-0"
+		class="nm-flat-gray-100 pt-2 md:pt-1 pb-3 px-1 mt-0 fixed w-full z-20 top-0"
 	>
-		<div class="flex flex-wrap items-center mt-3 mb-3">
+		<div 
+		class="responsiveWidth px-1 absolute pt-5 pb-5 inset-0 bg-gray-100"
+		v-if="!smallSize && auth">
+			<router-link to="/home">
+					<span class="text-xl pl-2"
+						><i class="fas fa-home"></i
+					></span>
+			</router-link>
+		</div>
+		<div class="flex flex-wrap items-center mt-3 mb-3 text-gray-600">
 			<div
 				v-if="auth"
-				class="flex flex-shrink md:w-1/3 justify-center md:justify-start text-white"
+				class="flex flex-shrink w-1/2 md:justify-start"
 			>
 				<router-link to="/home">
-					<span class="text-xl pl-2"
+					<span class="pl-2"
 						><i class="fas fa-home"></i
 					></span>
 				</router-link>
 			</div>
 			<div
 				v-if="!auth"
-				class="flex flex-shrink justify-center md:justify-start ml-auto mr-4 text-white "
+				class="flex flex-shrink justify-end ml-auto mr-4 w-1/2"
 			>
 				<a
 					href="#"
-					class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"
+					class="p-2 hover:text-gray-300 text-sm no-underline hover:no-underline block"
 					>Contact</a
 				>
 			</div>
 
-			<div
+			<!-- <div
 				v-if="auth"
-				class="flex flex-1 md:w-1/3 justify-center md:justify-start text-white px-2"
+				class="flex flex-1 md:w-1/3 justify-center md:justify-start px-2"
 			>
 				<span class="relative w-full">
 					<input
 						type="search"
 						placeholder="Search"
-						class="w-full bg-gray-800 text-sm text-white transition border border-transparent focus:outline-none focus:border-gray-700 rounded py-1 px-2 pl-10 appearance-none leading-normal"
+						class="w-full nm-inset-gray-100 text-sm transition focus:outline-none focus:nm-inset-gray-200 rounded py-1 px-2 pl-10 appearance-none leading-normal"
 					/>
 					<div
 						class="absolute search-icon"
 						style="top: .5rem; left: .8rem;"
 					>
 						<svg
-							class="fill-current pointer-events-none text-white w-4 h-4"
+							class="fill-current pointer-events-none w-4 h-4"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 20 20"
 						>
@@ -49,16 +60,16 @@
 						</svg>
 					</div>
 				</span>
-			</div>
+			</div>  -->
 
 			<div
 				v-if="auth"
-				class="flex mr-3 pt-2 content-center justify-between md:w-1/3 md:justify-end"
+				class="flex pr-3 content-center w-1/2 justify-end"
 			>
 				<div class="relative inline-block">
 					<button
 						@click="open = !open"
-						class="drop-button text-white focus:outline-none"
+						class="drop-button focus:outline-none"
 					>
 						<span class="pr-2"
 							><i class="em em-robot_face"></i></span
@@ -75,20 +86,19 @@
 					</button>
 					<div
 						v-if="open"
-						class="dropdownlist absolute bg-gray-900 text-white right-0 mt-3 p-3 overflow-auto z-30 rounded-md"
+						class="dropdownlist absolute nm-flat-gray-100-lg right-0 mt-3 p-3 overflow-auto z-30 rounded-md"
 					>
 						<input
 							type="text"
-							class="drop-search p-2 text-gray-600"
+							class="drop-search p-2 text-gray-600 nm-inset-gray-100 focus:nm-inset-gray-200 appearance-none focus:outline-none"
 							placeholder="Search.."
 							id="myInput"
 							onkeyup="filterDD('myDropdown','myInput')"
 						/>
-						<div class="border border-gray-800"></div>
-
+					
 						<div
 							@click="onLogout"
-							class="p-2 hover:bg-gray-800 text-white text-sm no-underline hover:no-underline block"
+							class="p-2 hover:text-gray-300 text-sm no-underline hover:no-underline block"
 						>
 							<i class="fas fa-sign-out-alt fa-fw"></i> Log Out
 						</div>
@@ -97,6 +107,8 @@
 			</div>
 		</div>
 	</nav>
+	
+	</div>
 </template>
 
 <script>
@@ -106,6 +118,7 @@
 			return {
 				invisible: true,
 				open: false,
+				
 			};
 		},
 		methods: {
@@ -114,6 +127,9 @@
 				this.open = false;
 				router.replace('/').catch(() => {});
 			},
+			sizeCheck() {
+				this.$store.dispatch('checkScreen')
+			}
 		},
 		computed: {
 			auth() {
@@ -122,6 +138,27 @@
 			userName() {
 				return this.$store.getters.userData;
 			},
+			smallSize() {
+				return this.$store.getters.smallSize
+			}
+
 		},
+		created(){
+			window.addEventListener('resize', this.sizeCheck);
+		},
+		// destroyed() {
+		// 	window.removeEventListener('resize', this.sizeCheck);
+		// },
 	};
 </script>
+
+<style scoped>
+@media only screen and (min-width: 768px) {
+
+.responsiveWidth {
+	width: 192px;
+	height: 118%;
+	
+}
+}
+</style>

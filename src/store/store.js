@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import loading from './loading'
 import topLoading from './loadingTop'
 import counter from './counter'
+import responsiveNav from './responsiveNav'
 import axios from 'axios'
 import router from '../router'
 Vue.use(Vuex)
@@ -91,16 +92,17 @@ export default new Vuex.Store({
         },
         tryAutoLogin ({commit, dispatch}) {
             dispatch('topPageshowSpinner', true)
+            dispatch('checkScreen')
             const token = localStorage.getItem('token')
             if(!token) {
-                this.dispatch('logout')
+                dispatch('logout')
                 dispatch('topPageshowSpinner', false)
                 return
             }
             const expirationDate = localStorage.getItem('expirationDate')
             const now = Date.now()
             if(now >= expirationDate) {
-                this.dispatch('logout')
+                dispatch('logout')
                 dispatch('topPageshowSpinner', false)
                 return
             }
@@ -116,17 +118,18 @@ export default new Vuex.Store({
         },
         checkLoginStatus ({commit, dispatch}) {
             dispatch('showSpinner', true)
+            console.log('checking')
             const token = localStorage.getItem('token')
             if(!token) {
                 alert('login is expired!Back to re-login again!')
-                this.dispatch('logout')
+                dispatch('logout')
                 return
             }
             const expirationDate = localStorage.getItem('expirationDate')
             const now = Date.now()
             if(now >= expirationDate) {
                 alert('login is expired! Back to re-login again!')
-                this.dispatch('logout')
+                dispatch('logout')
                 return
             }
             const userId = localStorage.getItem('userName')
@@ -144,6 +147,7 @@ export default new Vuex.Store({
             localStorage.removeItem('userName')
             // localStorage.clear() 
             router.replace('/')
+            dispatch('checkScreen')
             dispatch('showSpinner', false)
         }
     },
@@ -161,7 +165,8 @@ export default new Vuex.Store({
     modules: {
         loading,
         topLoading,
-        counter
+        counter,
+        responsiveNav
 
     }
 })

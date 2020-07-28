@@ -8,25 +8,27 @@
 				@submit.prevent="checkForm"
 			>
 				<div class="mb-4">
-					<h2 class="text-2xl font-semibold leading-tight">
+					<h2
+						class="text-2xl text-gray-600 font-semibold leading-tight"
+					>
 						Add New Bugs
 					</h2>
 				</div>
 				<div class="flex flex-wrap -mx-3 mb-6">
 					<div class="w-full px-3">
 						<label
-							class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+							class="block uppercase tracking-wide text-gray-600 text-xs font-bold mb-2"
 							for="title"
 						>
 							Bugs
 						</label>
 						<input
-							class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+							class="appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none nm-inset-gray-100 focus:nm-inset-gray-200"
 							:class="{ 'border-red-500': isError }"
 							name="title"
 							v-model="title"
 						/>
-						<p v-if="isError" class="text-gray-600 text-xs italic">
+						<p v-if="isError" class="text-red-600 text-xs italic">
 							this field is required
 						</p>
 					</div>
@@ -40,26 +42,28 @@
 							Description
 						</label>
 						<textarea
-							class="no-resize appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 h-48 resize-none"
+							class="appearance-none block w-full text-gray-600 rounded py-3 px-4 mb-3 leading-tight focus:outline-none nm-inset-gray-100 focus:nm-inset-gray-200 h-48 resize-none"
 							name="description"
 							v-model="description"
 						></textarea>
 					</div>
 				</div>
-				<button
-					class="shadow bg-teal-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-					type="submit"
-					@click="addBug"
-				>
-					Send
-				</button>
-				<router-link v-bind:to="`/projectDetail/${id}`">
-					<button
-						class="bg-green-400 py-2 px-3 rounded text-white hover:bg-green-300 float-right"
+				<div class="flex justify-between">
+					<router-link
+						tag="button"
+						v-bind:to="`/projectDetail/${id}`"
+						class="py-2 px-3 rounded text-gray-700 transition duration-300 ease-in-out nm-flat-gray-200 hover:nm-flat-gray-200-sm focus:outline-none"
 					>
 						Go Back
+					</router-link>
+					<button
+						class="focus:outline-none py-2 px-4 rounded text-gray-700 transition duration-300 ease-in-out nm-flat-green-200 hover:nm-flat-green-200-sm"
+						type="submit"
+						@click="addBug"
+					>
+						Send
 					</button>
-				</router-link>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -96,28 +100,27 @@
 						description: this.description,
 						title: this.title,
 					};
-					await axios.post(
-						`/projects/${this.id}/bugs`,
-						post,
-						{
-							headers: {
-								Authorization:
-									'Bearer ' + localStorage.getItem('token'),
-							},
-						}
-					);
+					await axios.post(`/projects/${this.id}/bugs`, post, {
+						headers: {
+							Authorization:
+								'Bearer ' + localStorage.getItem('token'),
+						},
+					});
 					this.title = '';
 					this.description = '';
 					await this.$router.push({
 						path: `/projectDetail/${this.id}`,
 					});
 				} catch (err) {
-					alert('something went wrong, please try it again.' + err.message)
+					alert(
+						'something went wrong, please try it again.' +
+							err.message
+					);
 				}
 			},
 			mounted() {
 				this.$store.dispatch('checkLoginStatus');
-			}
+			},
 		},
 		validations: {
 			title: { required },

@@ -4,7 +4,7 @@
 		class="bg-gray-100 font-sans leading-normal tracking-normal mt-16 min-h-full"
 	>
 		<NavBar />
-		<div v-if="!auth" class="relative pt-20 md:pt-0 min-h-screen">
+		<div v-if="!auth" class="flex justify-center relative pt-20 md:pt-0 h-full">
 			<router-view></router-view>
 		</div>
 		<div v-if="auth" class="flex flex-col md:flex-row min-h-screen">
@@ -21,7 +21,6 @@
 	export default {
 		data: function() {
 			return {
-				HomeIsActive: true,
 			};
 		},
 		computed: {
@@ -30,11 +29,7 @@
 			},
 		},
 		created() {
-			this.HomeIsActive = false;
 			this.$store.dispatch('tryAutoLogin');
-		},
-		destroyed() {
-			this.HomeIsActive;
 		},
 		components: {
 			NavBar,
