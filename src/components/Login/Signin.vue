@@ -51,7 +51,7 @@
 					>
 						Sign in
 					</button>
-					<p>to test, password:admin username:admin</p>
+					<p class="text-center pt-5 text-red-500">to test, password:admin username:admin</p>
 				<!-- </div> -->
 			</div>
 			<router-link to="/signUp">
