@@ -62,7 +62,7 @@
 									</svg>
 								</span>
 								<input
-									placeholder="Search"
+									placeholder="Search title.."
 									class="appearance-none rounded-r rounded-l sm:rounded-l-none block pl-8 pr-6 py-2 w-full text-sm placeholder-gray-400 nm-inset-gray-100 text-gray-500 focus:nm-inset-gray-200 focus:outline-none"
 									v-model="search"
 								/>
