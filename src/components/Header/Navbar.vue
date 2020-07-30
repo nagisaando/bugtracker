@@ -88,14 +88,6 @@
 						v-if="open"
 						class="dropdownlist absolute nm-flat-gray-100-lg right-0 mt-3 p-3 overflow-auto z-30 rounded-md"
 					>
-						<input
-							type="text"
-							class="drop-search p-2 text-gray-600 nm-inset-gray-100 focus:nm-inset-gray-200 appearance-none focus:outline-none"
-							placeholder="Search.."
-							id="myInput"
-							onkeyup="filterDD('myDropdown','myInput')"
-						/>
-					
 						<div
 							@click="onLogout"
 							class="p-2 hover:text-gray-300 text-sm no-underline hover:no-underline block"

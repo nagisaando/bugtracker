@@ -22,32 +22,6 @@
 							{{ project.description }}
 						</h1>
 					</div>
-					<!---------------------- Delete and Edit part----------------------------- -->
-					<!-- <div class="flex-1">
-						<div class="inline-flex float-right">
-							<router-link
-								v-bind:to="`/projectDetail/${id}/projectEdit`"
-								class="w-20 bg-blue-500 hover:bg-blue-400 text-white font-semibold py-2 px-4 rounded"
-								tag="button"
-							>
-								Edit
-							</router-link>
-							
-
-							<router-link
-								v-bind:to="
-									`/projectDetail/${project.id}/submitBug`
-								"
-								class="bg-transparent hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded float-right"
-								tag="button"
-							>
-								Add Bugs
-							</router-link>
-						</div>
-					</div> -->
-				<!-- </div> -->
-				<!-- <div class="my-2 flex sm:flex-row flex-col"> -->
-					<!-- <div class="flex-1 my-2 flex sm:flex-row flex-col"> -->
 						<div class="flex justify-between sm:mb-0">
 							<div>
 							<div class="relative inline-block">
@@ -90,6 +64,7 @@
 								<input
 									placeholder="Search"
 									class="appearance-none rounded-r rounded-l sm:rounded-l-none block pl-8 pr-6 py-2 w-full text-sm placeholder-gray-400 nm-inset-gray-100 text-gray-500 focus:nm-inset-gray-200 focus:outline-none"
+									v-model="search"
 								/>
 							</div>
 							</div>
@@ -220,6 +195,7 @@
 				// showModal: false,
 				// hasDeleted: false,
 				selectedCategory: 'All',
+				search: ''
 			};
 		},
 		methods: {
@@ -277,19 +253,26 @@
 		computed: {
 			filteredBugs: function() {
 				var category = this.selectedCategory;
-
+				let vm = this
 				if (category === 'All') {
-					return this.bugs;
+					return this.bugs.filter(bug => {
+						return bug.title.toLowerCase().includes(vm.search.toLowerCase())
+					})
 				} else if (category === 'Pending') {
 					return this.bugs.filter(function(bugs) {
-						return bugs.status === 1;
+						return (bugs.status === 1) && bugs.title.toLowerCase().includes(vm.search.toLowerCase())
 					});
 				} else {
 					return this.bugs.filter(function(bugs) {
-						return bugs.status === 0;
+						return (bugs.status === 0) &&  bugs.title.toLowerCase().includes(vm.search.toLowerCase())
 					});
 				}
 			},
+			filteredTitle(){
+				return this.bugs.filter(bug => {
+					return bug.title.toLowerCase().includes(this.search.toLowerCase())
+				})
+			}
 		},
 		mounted() {
 			this.$store.dispatch('checkLoginStatus');

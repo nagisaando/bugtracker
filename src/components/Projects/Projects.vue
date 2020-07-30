@@ -30,6 +30,7 @@
 							<input
 								placeholder="Search"
 								class="appearance-none rounded block pl-8 pr-6 py-2 w-full nm-inset-gray-100 text-sm text-gray-500 focus:nm-inset-gray-200 focus:outline-none"
+								v-model="search"
 							/>
 						</div>
 					</div>
@@ -50,7 +51,7 @@
 						<ul class="w-full leading-normal">
 							<router-link
 								v-bind:to="`/projectDetail/${project.id}`"
-								v-for="project in projects"
+								v-for="project in filterProject"
 								:key="project.id"
 								class="transition duration-300 ease-in-out nm-flat-gray-100 hover:nm-flat-gray-100-lg rounded my-6 mx-4 px-5 py-5 text-md cursor-pointer"
 								tag="li"
@@ -81,7 +82,15 @@
 		data() {
 			return {
 				projects: [],
+				search: ''
 			};
+		},
+		computed: {
+			filterProject(){
+				return this.projects.filter(project => {
+					return project.name.toLowerCase().includes(this.search.toLowerCase())
+				})
+			}
 		},
 		async mounted() {
 			this.$store.dispatch('checkLoginStatus');
